@@ -1,0 +1,10 @@
+pandas
+adal
+PyYAML
+pyarrow
+requests
+numpy
+google-cloud-bigquery
+google-cloud-bigquery-storage
+datadog
+fsspec

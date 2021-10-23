@@ -1,0 +1,9 @@
+bigquery:
+  location: US
+  env:
+    sit:
+      datasets:
+      - name: "pbirefreshes"
+        tables:
+        - name: "refreshhistory"
+        - name: "refreshschedules"

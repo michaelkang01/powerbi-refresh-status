@@ -1,0 +1,16 @@
+FROM gcr.io/qt-shared-services-3w/python:3.8 as base
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+COPY ./ app
+WORKDIR /app
+
+
+USER python
+
+FROM base as test
+
+ENTRYPOINT ["echo", "skip..."]
+
+FROM base as runtime
+
+ENTRYPOINT ["/bin/kubexit", "python", "main.py"]

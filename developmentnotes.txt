@@ -1,0 +1,22 @@
+#Code written by Michael Kang
+#Property of Questrade
+
+These are just some observations and notes for the python script should it be handed off to someone else.
+There are a few things that access is required for, namely:
+Google Cloud Services
+Git
+Datadog
+
+How the Questrade Pipeline works is like this:
+1. Code is sent to the Git
+https://git.questrade.com/engineering/BI/Prod/pbi-collector/powerbi-refresh-status
+2. The CloudInfra team helps setup the pipeline on Jenkins.
+http://jenkins.q3.questech.io:8080/view/Data%20Masters/job/powerbi-refresh-status/
+3. If  successful, the program is ran on Google's Kubernetes system.
+4. Logs can be found on Datadog by searching the service's name.
+https://app.datadoghq.com/logs?event=&from_ts=1622034465190&index=&live=true&query=env%3Asit%20service%3Apower%2A&to_ts=1622639265190
+5. The BigQuery results are found on Google Cloud Services. (in qt-msa-nonprod-6f)
+https://console.cloud.google.com/home/preview?project=qt-msa-nonprod-6f&folder=&organizationId=
+
+For Testing:
+Contact Marina Vassiliev for credentials to place into local_run_env.yaml for testing.
