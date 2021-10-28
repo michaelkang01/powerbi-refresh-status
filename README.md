@@ -39,28 +39,28 @@ Follow these steps to configure `PowerBI Collector`
 (`./cfg` folder)  
 Here is an example of the configuration file. All parameters are mandatory, but values should be adjusted appropriately.  
 
-This example configures two cronjobs that will use the same GKE image as a base. First cronjob queries data for CTC (`--company=ctc` as a command-line parameter), whereas second one quieries data for Questrade.  
+This example configures two cronjobs that will use the same GKE image as a base. First cronjob queries data for CTC (`--company=***` as a command-line parameter), whereas second one quieries data for *****.  
 
 Both cronjobs are configured to run at 7.00am (UTC) daily.
 
 ```yaml
 service_name: powerbi-refreshes
 stack: python
-owner: datamasters              
+owner: *             
 
 app_deployment: false           # since runtime is build, we leave app deployment to false
 
 cronjobs:                       # it is possible to define multiple cronjobs, and multiple run parameters. Every cronjob is running in its own pod.
-  - name: powerbi-refreshes-ctc     # this will become a cronjob name in Google Kubernetes Enviorment (GKE)
+  - name: powerbi-refreshes-***     # this will become a cronjob name in Google Kubernetes Enviorment (GKE)
     runtime: build      # leave as build for this project.
     schedule: "0 7 * * *"       # adjust this to adjust when the cronjob runs.
     dockerfile: Dockerfile.cronjob.powerbi-ref      # this should be the name of the dockerfile in the root directory (where main.py is found)
-    args: "--company=ctc"       # command-line parameter for this instance
-  - name: powerbi-refreshes-questrade
+    args: "--company=***"       # command-line parameter for this instance
+  - name: powerbi-refreshes-*****
     runtime: build
     schedule: "0 7 * * *"
     dockerfile: Dockerfile.cronjob.powerbi-ref
-    args: "--company=questrade"
+    args: "--company=*****"
 
 bigquery:                       # since this job writes to BigQuery, it should be enabled
   enabled: true
@@ -69,9 +69,9 @@ rbac:
   env:
     sit:
       users:
-      - skhanzhin@questrade.com
+      - **
       groups:
-      - datamasters@questrade.com
+      - ****
 ```
 
 ### <font color=orange>config-xxx.yaml</font>
@@ -82,17 +82,17 @@ All non-sensitive parameters should be placed here.
 The program allows pulling data for multiple companies, so all relevant parameters should be placed under company's name:
 ``` yaml
 ctc:        # company name
-    authority_url: "https://login.microsoftonline.com/communitytrust.ca"        # authentication url
+    authority_url: "https://login.microsoftonline.com/***"        # authentication url
     resource: "https://analysis.windows.net/powerbi/api"        # api endpoint target
     dataset: "pbirefreshes"     # target BigQuery dataset name
-    project: "qt-msa-nonprod-6f"        # target BigQuery project name (where the dataset will be found)
+    project: "*"        # target BigQuery project name (where the dataset will be found)
     asjson: True        # True - result will be stored as a single-column json document, False - result will be stored as multicolumn table
     save_strategy: separate     # will write to tables with every write_bigquery() call according to table name provided, remove if all in one table is preferred.
 questrade:
-    authority_url: "https://login.microsoftonline.com/questrade.com"
+    authority_url: "https://login.microsoftonline.com/*****"
     resource: "https://analysis.windows.net/powerbi/api"
     dataset: "pbirefreshes"
-    project: "qt-msa-nonprod-6f"
+    project: "*"
     asjson: True
     save_strategy: separate
 ```
@@ -118,11 +118,10 @@ bigquery:
 
 ```
 
-General information on BigQuery configuration can be found [here](https://git.questrade.com/infra/docs/-/blob/master/paas.config.md#bigquery-configuration)
+General information on BigQuery configuration can be found [here](*)
 
 ### <font color=orange>Vault</font>
-All sensitive parameters (Username/password pairs, sensitive IDs) have to be saved in the [HashiCorp vault](https://vault.q3.questech.io/ui/vault/auth?with=ldap).  
-More information about the Vault you can find [here](https://confluence.questrade.com/display/QIOS/Configuration+and+secret+management+for+Cloud+Native+Applications)  
+All sensitive parameters (Username/password pairs, sensitive IDs) have to be saved in the [HashiCorp vault](*).  
 
 For each company you want to pull data for, save these key-value pairs at *env*/powerbi-refreshes/powerbi-refreshes/secret branch:  
 
@@ -139,7 +138,7 @@ For each company you want to pull data for, save these key-value pairs at *env*/
 
 | Code | Description| Resolution |
 | ---- | :----| --- |
-|1| Command line parameters are not defined, or value is out of range. Required parameter is: `--company=['questrade', 'ctc']`| Check command-line partameters
+|1| Command line parameters are not defined, or value is out of range. Required parameter is: `--company=['*****', '***']`| Check command-line partameters
 |2| Error getting PowerBI security token | Ensure you specified correct `username`, `password`, and `client-id` variables in Vault.
 |3| Called function is not implemented yet | Call Data Masters team |
 |4| Command-line option is not recognized. There is only one `--company` option allowed | Check command-line parameters |
