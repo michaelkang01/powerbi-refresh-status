@@ -1,12 +1,12 @@
 ctc:
-    authority_url: "https://login.microsoftonline.com/communitytrust.ca"
+    authority_url: "https://login.microsoftonline.com/***
     resource: "https://analysis.windows.net/powerbi/api"
     dataset: "pbirefreshes"
     project: "qt-msa-nonprod-6f"
     asjson: False
     save_strategy: separate
 questrade:
-    authority_url: "https://login.microsoftonline.com/questrade.com"
+    authority_url: "https://login.microsoftonline.com/*****"
     resource: "https://analysis.windows.net/powerbi/api"
     dataset: "pbirefreshes"
     project: "qt-msa-nonprod-6f"
