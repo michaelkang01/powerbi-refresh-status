@@ -1,20 +1,20 @@
 service_name: powerbi-refresh-status
 stack: python
-owner: datamasters
+owner: *
 
 app_deployment: false
 
 cronjobs:
-  - name: ref-ctc
+  - name: ref-***
     runtime: build
     schedule: "0 7,14,19 * * *"
     dockerfile: Dockerfile.cronjob.powerbi-ref
-    args: "--company=ctc"
-  - name: ref-questrade
+    args: "--company=***"
+  - name: ref-*****
     runtime: build
     schedule: "0 7,14,19 * * *"
     dockerfile: Dockerfile.cronjob.powerbi-ref
-    args: "--company=questrade"
+    args: "--company=*****"
 
 bigquery:   
   enabled: true
@@ -23,8 +23,8 @@ rbac:
   env:
     sit:
       users:
-      - mkang@questrade.com
+      - **
       groups:
-      - datamasters@questrade.com
+      - ****
 
       
