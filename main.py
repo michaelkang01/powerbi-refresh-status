@@ -40,14 +40,14 @@ logger = getLogger(source='PowerBI refreshes')
 #logger.exception_enabled = False
 
 # allowed companies
-COMPANIES = ['questrade', 'ctc']
+COMPANIES = ['*****', '***']
 
 # processed rows. To keep up statistics...
 rows_processed=0
 # parse arguments and decide on a plan (if not a local run):
 if 'local_run' in environ:
     env = 'sit'
-    company = 'ctc'
+    company = '***'
     logger.debug('RUNNING LOCAL!!!!')
     try:  # load some sensitive variables from a local config file
         load_local_variables()
